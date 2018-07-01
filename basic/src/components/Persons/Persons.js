@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Person from './Person/Person';
 
 // stateless
@@ -12,7 +12,7 @@ import Person from './Person/Person';
 //       });
 
 // stateful
-class Persons extends Component {
+class Persons extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -31,10 +31,11 @@ class Persons extends Component {
     console.log('[UPDATE Persons.js] Inside componentWillReceiveProps', nextProps);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
-    return nextProps.persons !== this.props.persons;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
+  //   return nextProps.persons !== this.props.persons;
+  //   // return true;
+  // }
 
   componentWillUpdate(nextProps, nextState) {
     console.log('[UPDATE Persons.js] Inside componentWillUpdate', nextProps, nextState);
