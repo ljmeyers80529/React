@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-
+// import WithClass from '../highOrderComponent/WithClass';
+import Aux from '../highOrderComponent/Aux1';
+import withClass from '../highOrderComponent/withClass1';
 class App extends PureComponent {
 
   constructor(props) {
@@ -85,7 +87,7 @@ class App extends PureComponent {
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
         <button onClick={() => {this.setState({showPerson: true})}}>Show persons</button>
         <Cockpit
           appTitle = {this.props.title}       // requires 'this' since within a class.
@@ -93,9 +95,9 @@ class App extends PureComponent {
           persons={this.state.persons}
           clicked={this.togglePersonsHandler} />
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
