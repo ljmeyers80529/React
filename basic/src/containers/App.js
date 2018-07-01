@@ -1,8 +1,38 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log('[App.js] Inside constructor', props);
+  }
+
+  componentWillMount() {
+    console.log('[App.js] Inside componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] Inside componentDidMount()');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[UPDATE App.js] Inside shouldComponentUpdate', nextProps, nextState);
+    return true;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('[UPDATE App.js] Inside componentWillUpdate', nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log('[UPDATE App.js] Inside componentDidUpdate');
+  }
+
+
+
   state = {
     persons: [
       {id: "fdkfe7", name: "Chomper", age: 3},
@@ -38,43 +68,28 @@ class App extends Component {
   };
 
   render() {
+    console.log('[App.js] Inside render()');
+
     let persons = null;
-    let btnClass = '';
 
     if (this.state.showPerson) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-              click={() => this.deletePersonHandler(index)}
-              name={person.name} 
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangdHandler(event, person.id)}/>
-          })}
-        </div>
+          <Persons
+            persons={this.state.persons}
+            deletePersonHandler={this.deletePersonHandler}
+            nameChangdHandler={this.nameChangdHandler}
+            />
       );
 
-      btnClass = classes.Red;
-
-    }
-
-    // let classes = ['pColor', 'pBold'].join(' ');       // css class name.
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.pColor);
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.pBold);
     }
 
     return (
       <div className={classes.App}>
-        <h1>This is a basic react app.</h1>
-        <p className={assignedClasses.join(' ')}>This is working!</p>
-        <button 
-        className={btnClass}
-        onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <Cockpit
+          appTitle = {this.props.title}       // requires 'this' since within a class.
+          showPerson={this.state.showPerson}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler} />
         {persons}
       </div>
     );
