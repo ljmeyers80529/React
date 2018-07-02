@@ -5,6 +5,8 @@ import Cockpit from '../components/Cockpit/Cockpit';
 // import WithClass from '../highOrderComponent/WithClass';
 import Aux from '../highOrderComponent/Aux1';
 import withClass from '../highOrderComponent/withClass1';
+
+export const AuthContext = React.createContext(false);
 class App extends PureComponent {
 
   constructor(props) {
@@ -43,7 +45,9 @@ class App extends PureComponent {
       {id: "pdekf8r34", name: "Toffe", age: 1}
       ],
       otherState: false,
-      showPerson: false
+      showPerson: false,
+      toggleClickedCounter: 0,
+      authenticated: false
   };
 
   nameChangdHandler = (event, id) => {
@@ -67,7 +71,16 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     let showX = this.state.showPerson;
-    this.setState({showPerson: !showX});
+    this.setState((prevState,props) => {
+      return {
+      showPerson: !showX, 
+        toggleClickedCounter: prevState.toggleClickedCounter+1
+      }
+    });
+  };
+
+  loginHandler = () => {
+    this.setState({authenticated: true});
   };
 
   render() {
@@ -93,8 +106,11 @@ class App extends PureComponent {
           appTitle = {this.props.title}       // requires 'this' since within a class.
           showPerson={this.state.showPerson}
           persons={this.state.persons}
+          login={this.loginHandler}
           clicked={this.togglePersonsHandler} />
-        {persons}
+          <AuthContext.Provider value={this.state.authenticated}>
+            {persons}
+          </AuthContext.Provider>
       </Aux>
     );
   }
