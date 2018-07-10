@@ -10,7 +10,9 @@ class Blog extends Component {
 
     state = {
         posts: [],
-        selectedPostId: null
+        selectedPostId: null,
+        error: false,
+        errorMessage: null
     }
 
     componentDidMount() {
@@ -25,6 +27,10 @@ class Blog extends Component {
                 });
                 this.setState({posts: updatedPosts})
                 // console.log(result);
+            })
+            .catch(err => {
+                this.setState({error: true, errorMessage: err});
+                // console.log(err);
             });
     };
 
