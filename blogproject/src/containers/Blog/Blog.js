@@ -51,8 +51,8 @@ class Blog extends Component {
         return (
             <div>
                 <section className="Posts">
-                </section>
                     {posts}
+                </section>
                 <section>
                     <FullPost id={this.state.selectedPostId} />
                 </section>
