@@ -12,6 +12,11 @@ class NewPost extends Component {
         submitted: false
     }
 
+    componentDidMount() {
+        console.log(this.props);
+        // if unauth => this.props.history.replace('/posts')        another way to protet (guard) pages from unauthorized users.
+    }
+
     postDataHandler = () => {
         const data = {
             title: this.state.title,
