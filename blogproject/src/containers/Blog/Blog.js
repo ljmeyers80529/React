@@ -15,7 +15,7 @@ class Blog extends Component {
                         <ul>
                             <li><NavLink
                                 exact 
-                                to="/"
+                                to="/posts/"
                                 activeClassName="xactive"
                                 activeStyle={{color: '#fa923f', textDecoration: 'underline'}}>Home</NavLink></li>
                             <li><NavLink to={{
@@ -29,7 +29,7 @@ class Blog extends Component {
                 {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
                 <Switch>
                     <Route path="/new-post" component={NewPost} />
-                    <Route path="/" component={Posts} />
+                    <Route path="/posts" component={Posts} />
                 </Switch>
             </div>
         );
