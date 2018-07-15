@@ -53,6 +53,7 @@ class ContactData extends Component {
             <input className={classes.Input} type="text" name="street" placeholder="Your street" />
             <input className={classes.Input} type="text" name="zipcode" placeholder="Your zipcode" />
             <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+            2
         </form>
 );
         if (this.state.loading) {
