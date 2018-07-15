@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
 
 import axios from '../../../axios-orders';
 
@@ -8,12 +9,51 @@ import classes from './ContactData.css';
 
 class ContactData extends Component {
     state = {
-        name: '',
-        email: '',
-        address: {
-            city: '',
-            street: '',
-            zipCode: ''
+        orderForm: {
+                name: { elementType: 'input',
+                        elementConfig: {
+                           type: 'text',
+                           placeholder: 'Your name'
+                        },
+                        value: ''
+                    },
+                email: { elementType: 'input',
+                         elementConfig: {
+                           type: 'email',
+                           placeholder: 'Your email addr'
+                        },
+                        value: ''
+                    },
+                city: { elementType: 'input',
+                        elementConfig: {
+                           type: 'text',
+                            placeholder: 'Your city'
+                    },
+                    value: ''
+                },
+                street: { elementType: 'input',
+                          elementConfig: {
+                            type: 'text',
+                            placeholder: 'Your street addr'
+                        },
+                        value: ''
+                    },
+                zipcode: { elementType: 'input',
+                           elementConfig: {
+                            type: 'text',
+                            placeholder: 'Your zipcode'
+                        },
+                        value: ''
+                    },
+                deleveryMethod: { elementType: 'select',
+                                    elementConfig: {
+                                        options: [
+                                            {value: 'fastest', displayValue: 'Fastest' },
+                                            {value: 'snail mail', displayValue: 'Cheapest'}
+                                        ]
+             },
+             value: ''
+         },
         },
         loading: false
     }
@@ -23,17 +63,7 @@ class ContactData extends Component {
       this.setState({loading: true});
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price,
-            customer: {
-                name: 'Me',
-                address: {
-                    street: 'Main',
-                    zipcode: 12322,
-                    city: 'Anywhere'
-                },
-                email: 'xyz@mail.xxx'
-            },
-            deviveryMethod: 'snail mail'
+            price: this.props.price
         };
         axios.post('/orders.json', order)
             .then(response => {
@@ -46,14 +76,13 @@ class ContactData extends Component {
         }
 
     render() {
-        let form = (                <form>
-            <input className={classes.Input} type="text" name="name" placeholder="Your name" />
-            <input className={classes.Input} type="email" name="email" placeholder="Your email" />
-            <input className={classes.Input} type="text" name="city" placeholder="Your city" />
-            <input className={classes.Input} type="text" name="street" placeholder="Your street" />
-            <input className={classes.Input} type="text" name="zipcode" placeholder="Your zipcode" />
+        let form = (<form>
+            <Input  />
+            <Input inputtype='input' type="email" name="email" placeholder="Your email" />
+            <Input inputtype='input' type="text" name="city" placeholder="Your city" />
+            <Input inputtype='input' type="text" name="street" placeholder="Your street" />
+            <Input inputtype='input' type="text" name="zipcode" placeholder="Your zipcode" />
             <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
-            2
         </form>
 );
         if (this.state.loading) {
