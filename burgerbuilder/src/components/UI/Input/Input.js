@@ -4,12 +4,12 @@ import classes from './Input.css';
 
 const input = (props) => {
     let InputElement = null;
+    let errorText = null;
     const inputClasses = [classes.InputElement];
 
-    console.log(props);
-    
     if (props.invalid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.Invalid);
+        errorText = <p className={classes.InvalidText}>Plese enter the correct information.</p>
     }
 
     switch (props.elementType) {
@@ -50,6 +50,7 @@ const input = (props) => {
     <div className={classes.Input}>
         <label className={classes.Label}>{props.label}</label>
         {InputElement}
+        {errorText}
     </div>
     );
 }

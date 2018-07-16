@@ -79,9 +79,10 @@ class ContactData extends Component {
                                             {value: 'snail mail', displayValue: 'Cheapest'}
                                         ]
              },
-             value: ''
+             value: 'fastest'
          },
         },
+        formIsValid: false,
         loading: false
     }
 
@@ -112,16 +113,19 @@ class ContactData extends Component {
     checkValidity(value, rules) {
         let isValid = true;
 
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
+        if (rules) {
 
-        if (rules.minLength) {
-            isValid &= value.length >= rules.minLength && isValid;            
-        }
+            if (rules.required) {
+                isValid = value.trim() !== '' && isValid;
+            }
 
-        if (rules.maxLength) {
-            isValid &= value.length <= rules.maxLength && isValid;
+            if (rules.minLength) {
+                isValid &= value.length >= rules.minLength && isValid;            
+            }
+
+            if (rules.maxLength) {
+                isValid &= value.length <= rules.maxLength && isValid;
+            }
         }
 
         return isValid;
@@ -134,15 +138,24 @@ class ContactData extends Component {
         const updatedFormElement = {
             ...updatedOrderForm[inputIdentifier]
         };
+
+        let formIsValid = true;
+        
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
-        this.setState({orderForm: updatedOrderForm});
+
+        for(let inputId in updatedOrderForm) {
+            const elementValid = updatedOrderForm[inputId].valid;
+            if (updatedOrderForm[inputId].validation) {
+                formIsValid &= elementValid;
+            }
+        }
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     };
 
     render() {
-
         const formElementsArray = [];
         for (let key in this.state.orderForm){
             formElementsArray.push(
@@ -165,7 +178,7 @@ class ContactData extends Component {
                     touched={formElement.config.touched}
                     changed={(event) => this.inputChangedHandler(event, formElement.id)} />
             ))}
-            <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+            <Button btnType="Success" clicked={this.orderHandler} disabled={!this.state.formIsValid}>ORDER</Button>
         </form>
 );
         if (this.state.loading) {

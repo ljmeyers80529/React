@@ -30,3 +30,8 @@
     border: 1px solid red;
     background-color: salmon;
 }
+
+.InvalidText {
+    border: 5px 0;
+    color: red;
+}
