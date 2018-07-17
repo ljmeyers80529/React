@@ -15,12 +15,12 @@ const reducer = (state = initialCounter, action) => {
     };
     if (action.type === 'ADD') {
         return {
-            counter: state.counter + 5
+            counter: state.counter + action.offset
         };
     };
     if (action.type === 'SUB') {
         return {
-            counter: state.counter - 5
+            counter: state.counter - action.offset
         };
     };
     return state;
