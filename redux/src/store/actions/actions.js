@@ -31,11 +31,19 @@ export const sub = (offset) => {
     };
 }
 
-export const store = (result) => {
+export const saveResult = result => {
     return {
         type: STORE_RESULT,
         result: +result
     };
+}
+
+export const store = (result) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(saveResult(result));
+            }, 2000)
+        }
 }
 
 export const deleteItem = (id) => {
