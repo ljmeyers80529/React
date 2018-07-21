@@ -10,7 +10,7 @@ const reducer = (state = initialCounter, action) => {
         case actionTypes.STORE_RESULT:
             return {
                 ...state,
-                results: state.results.concat({id: new Date(), value: action.result})     // use concat instead of push.
+                results: state.results.concat({id: new Date(), value: action.result*2})     // use concat instead of push.
             }
         case actionTypes.DELETE_ITEM:
             // const id = 2;                            // one way to remove an item from an arra even if the elements are objects.
