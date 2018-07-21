@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialCounter = {
     results: []
@@ -8,22 +9,16 @@ const reducer = (state = initialCounter, action) => {
 
     switch (action.type) {
         case actionTypes.STORE_RESULT:
-            return {
-                ...state,
-                results: state.results.concat({id: new Date(), value: action.result*2})     // use concat instead of push.
-            }
+            return updateObject(state, {results: state.results.concat({id: new Date(), value: action.result*2})});
+
         case actionTypes.DELETE_ITEM:
-            // const id = 2;                            // one way to remove an item from an arra even if the elements are objects.
-            // const newArr = [...state.results];
-            // newArr.splice(id, 1);
-            const updArr = state.results.filter(result => result.id !== action.resultId)        // preferred
-            return {
-                ...state,
-                results: updArr
-            }
+            const updArr = state.results.filter(result => result.id !== action.resultId);
+            console.log('[DeleteItem]', updArr, action.resultId);
+            return updateObject(state, {results: updArr});
+
         default:
             return state;
     }
 };
 
-export default reducer;
+export default reducer;;
