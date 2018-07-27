@@ -20,8 +20,6 @@ class App extends Component {
             <Route path="/" exact component={BurgerBuilder} />
             <Route path='/logout' exact component={Logout} />
           </Switch>
-          {/* <BurgerBuilder />
-          <Checkout /> */}
         </Layout>
       </div>
     );

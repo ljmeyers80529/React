@@ -18,13 +18,6 @@ class BurgerBuilder extends Component {
 
     componentDidMount() {
         this.props.onInitIngredients();
-        // axios.get('https://react-burgerbuilder-2d4fc.firebaseio.com/ingredients.json')
-        // .then(response => {
-        //     this.setState({ingredients: response.data})
-        // })
-        // .catch(error => {
-        //     this.setState({error: true})
-        // });
     }
 
     updatePurchaeState (ingredients) {
@@ -37,41 +30,12 @@ class BurgerBuilder extends Component {
         return sum > 0;
     }
 
-    // addIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-    //     const updatedCount = oldCount + 1;
-    //     const priceAddition = INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = priceAddition + oldPrice;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     }; 
-
-    //     updatedIngredients[type] = updatedCount;
-    //     this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-    //     this.updatePurchaeState(updatedIngredients);
-    // };
-
-    // removeIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-
-    //     if (oldCount <= 0) {
-    //         return;
-    //     }
-    //     const updatedCount = oldCount - 1;
-    //     const priceReduction = INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = oldPrice - priceReduction;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     }; 
-
-    //     updatedIngredients[type] = updatedCount;       this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-    //     this.updatePurchaeState(updatedIngredients);
-    // };
-
     purchaseHandler = () => {
-        this.setState({purchasing: true});
+        if (this.props.isAuthenticated) {
+            this.setState({purchasing: true});
+        } else {
+            this.props.history.push('/auth');
+        }
     }
 
     purchasedCanceledHandler = () => {
@@ -79,27 +43,12 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        // alert('You pressed to continue.');
-  
-        // const queryParams = [];
-        // for (let i in this.state.ingredients) {
-        //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-        // }
-        // queryParams.push('price=' + this.state.totalPrice);
-
-        // const queryString = queryParams.join('&');
-
-        // this.props.history.push({
-        //     pathname: '/checkout',
-        //     search: '?' + queryString
-        // });
         this.props.onInitPurchased();
         this.props.history.push('/checkout');
     }
 
     render() {
         const disabledInfo = {
-            // ...this.state.ingredients
             ...this.props.ings
         }
 
@@ -120,7 +69,8 @@ class BurgerBuilder extends Component {
                       disabled = {disabledInfo}
                       purchasable = {this.updatePurchaeState(this.props.ings)}
                       ordered = {this.purchaseHandler}
-                      price = {this.props.price}/>
+                      isAuth = {this.props.isAuthenticated}
+                      price = {this.props.price} />
                 </Auxillary>
                 );
                 orderSummary =  <OrderSummary 
@@ -146,7 +96,8 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 }
 
